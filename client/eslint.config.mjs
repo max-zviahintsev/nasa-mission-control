@@ -35,6 +35,7 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       '@typescript-eslint': tseslint.plugin,
       prettier: prettierPlugin,
+      '@emotion': import('@emotion/eslint-plugin'),
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
