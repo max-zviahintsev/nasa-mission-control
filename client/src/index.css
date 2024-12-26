@@ -1,8 +1,18 @@
 :root {
   --main: rgb(38 218 253);
+  --bright: rgb(161, 236, 251);
 }
 
 body {
+  margin: 0;
   background-image: url('/images/background-large.jpg');
   background-color: rgb(6 34 38);
+  font-family: 'Titillium Web", "sans-serif"';
+}
+
+@font-face {
+  font-family: 'Titillium Web", "sans-serif"';
+  src: url('/fonts/TitilliumWeb-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
 }
