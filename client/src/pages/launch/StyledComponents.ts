@@ -14,5 +14,6 @@ export const Paragraph = styled.p`
   margin: 0 0 20px 0;
 `
 export const List = styled.ul`
-  margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 20px;
 `
