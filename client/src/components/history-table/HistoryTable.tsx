@@ -10,10 +10,10 @@ type Columns = {
   launchDate: string
   mission: string
   rocket: string
-  target: string
+  customers: string
 }
 
-export default function UpcomingTable() {
+export default function HistoryTable() {
   const columns = useMemo<MRT_ColumnDef<Columns>[]>(
     () => [
       {
@@ -37,8 +37,8 @@ export default function UpcomingTable() {
         size: 150,
       },
       {
-        accessorKey: 'target',
-        header: 'Destination',
+        accessorKey: 'customers',
+        header: 'Customers',
         size: 150,
       },
     ],
@@ -51,7 +51,7 @@ export default function UpcomingTable() {
         launchDate: '2026-06-13',
         mission: 'suicidal',
         rocket: 'shitty',
-        target: 'russia',
+        customers: 'Musk and Trump',
       },
     ],
     []
