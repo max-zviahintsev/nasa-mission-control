@@ -11,6 +11,15 @@ body {
   font-family: 'Titillium Web", "sans-serif"';
 }
 
+.MuiSelect-select,
+.MuiBox-root label {
+  color: var(--bright);
+}
+
+.MuiSelect-select {
+  color: var(--bright) !important;
+}
+
 @font-face {
   font-family: 'Titillium Web", "sans-serif"';
   src: url('/fonts/TitilliumWeb-Regular.ttf');

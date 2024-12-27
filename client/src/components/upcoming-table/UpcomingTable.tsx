@@ -57,6 +57,24 @@ export default function UpcomingTable() {
   const table = useMaterialReactTable({
     columns,
     data,
+    mrtTheme: () => ({
+      baseBackgroundColor: 'rgba(0, 0, 0, 0)',
+    }),
+    muiTableHeadCellProps: {
+      sx: () => ({
+        color: 'var(--bright);',
+      }),
+    },
+    muiTableBodyCellProps: {
+      sx: {
+        color: 'var(--bright);',
+      },
+    },
+    muiBottomToolbarProps: {
+      sx: {
+        color: 'var(--bright);',
+      },
+    },
   })
   return <MaterialReactTable table={table} />
 }
