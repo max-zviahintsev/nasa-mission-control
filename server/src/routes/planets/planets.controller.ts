@@ -1,7 +1,7 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { planets } from "../../models/planets.model";
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { planets } from '../../models/planets.model'
 async function getAllPlanets(request: FastifyRequest, reply: FastifyReply) {
-  return reply.send(planets);
+  return reply.send(planets)
 }
 
-export { getAllPlanets };
+export { getAllPlanets }
