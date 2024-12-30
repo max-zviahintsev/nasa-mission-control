@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
 import { Server, IncomingMessage, ServerResponse } from 'node:http'
+import { loadPlanetsData } from './models/planets.model.ts'
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
   fastify({
@@ -18,6 +19,8 @@ await server.register(cors, {
 server.get('/ping', async () => {
   return 'pong\n'
 })
+
+await loadPlanetsData()
 
 // ROUTES
 await server.register(import('./routes/planets/planets.router.ts'))
