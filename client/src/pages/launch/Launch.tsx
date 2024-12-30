@@ -1,6 +1,10 @@
 import { Wrapper, Paragraph, List } from './StyledComponents'
 import LaunchForm from '../../components/launch-form/LaunchForm'
+import usePlanets from '../../hooks/usePlanets'
 export default function Launch() {
+  const planets = usePlanets()
+  console.log('planets', planets)
+
   return (
     <div>
       <Wrapper>

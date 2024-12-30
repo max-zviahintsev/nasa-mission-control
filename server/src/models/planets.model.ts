@@ -1,1 +1,1 @@
-export const planets = [];
+export const planets = ['Mercury']
