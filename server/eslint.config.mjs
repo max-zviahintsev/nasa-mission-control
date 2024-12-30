@@ -5,14 +5,14 @@ import prettierPlugin from 'eslint-plugin-prettier'
 import typescriptEslintParser from '@typescript-eslint/parser'
 
 export default tseslint.config(
-  { ignores: ['dist', 'build'] },
+  { ignores: ['dist'] },
   {
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommended,
       eslintPluginPrettierRecommended,
     ],
-    ignores: ['dist', 'build', 'node_modules'],
+    ignores: ['dist', 'node_modules'],
     files: ['**/*.{ts}'],
     languageOptions: {
       ecmaVersion: 2020,

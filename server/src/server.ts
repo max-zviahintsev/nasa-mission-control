@@ -1,25 +1,26 @@
 import fastify, { FastifyInstance } from 'fastify'
-import autoLoad from '@fastify/autoload'
-import { fileURLToPath } from 'node:url'
-import { dirname, join } from 'node:path'
+import cors from '@fastify/cors'
 import { Server, IncomingMessage, ServerResponse } from 'node:http'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
   fastify({
-    logger: true,
+    logger: {
+      transport: {
+        target: '@fastify/one-line-logger',
+      },
+    },
   })
+
+await server.register(cors, {
+  origin: 'http://localhost:5173',
+})
 
 server.get('/ping', async () => {
   return 'pong\n'
 })
 
-server.register(autoLoad, {
-  dir: join(__dirname, 'routes'),
-  dirNameRoutePrefix: false,
-})
+// ROUTES
+await server.register(import('./routes/planets/planets.router.ts'))
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
     console.error(err)
