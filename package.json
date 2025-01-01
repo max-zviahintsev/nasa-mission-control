@@ -1,0 +1,14 @@
+{
+  "name": "nasa-mission-control",
+  "version": "1.0.0",
+  "description": "NASA Mission Control Project",
+  "main": "index.js",
+  "scripts": {
+    "server": "pnpm --prefix ./server dev",
+    "client": "pnpm --prefix ./client dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
