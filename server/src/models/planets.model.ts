@@ -2,18 +2,19 @@ import fs from 'fs'
 import { parse } from 'csv-parse'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { PlanetInitial } from './types'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = join(dirname(__filename), 'server')
 
-const planets: any = []
+const planets: PlanetInitial[] = []
 
-function isHabitablePlanet(planet: any) {
+function isHabitablePlanet(planet: PlanetInitial) {
   return (
     planet['koi_disposition'] === 'CONFIRMED' &&
-    planet['koi_insol'] > 0.36 &&
-    planet['koi_insol'] < 1.11 &&
-    planet['koi_prad'] < 1.6
+    Number(planet['koi_insol']) > 0.36 &&
+    Number(planet['koi_insol']) < 1.11 &&
+    Number(planet['koi_prad']) < 1.6
   )
 }
 /* async function savePlanet(planet: any) {

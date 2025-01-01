@@ -7,6 +7,12 @@ export const FormElement = styled.div`
   display: flex;
   margin-bottom: 10px;
 `
+export const StyledSelect = styled.select`
+  min-width: 158px;
+`
+export const StyledInput = styled.input`
+  min-width: 150px;
+`
 export const Button = styled.button`
   font-size: 16px;
   color: var(--green);

@@ -1,5 +1,13 @@
+import { useMemo } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { FormElement, Label, Button } from './StyledComponents'
+import usePlanets from '../../hooks/usePlanets'
+import {
+  FormElement,
+  Label,
+  Button,
+  StyledInput,
+  StyledSelect,
+} from './StyledComponents'
 
 interface FormInput {
   launchDay: string
@@ -17,13 +25,23 @@ export default function LaunchForm() {
       rocketName: 'Explorer IS1',
     },
   })
+  const planets = usePlanets()
+
+  const options = useMemo(() => {
+    return planets.map((planet) => (
+      <option value={planet.planetName} key={planet.planetName}>
+        {planet.planetName}
+      </option>
+    ))
+  }, [planets])
+
   const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormElement>
         <Label htmlFor="launch-day">Launch Date</Label>
-        <input
+        <StyledInput
           type="date"
           {...(register('launchDay'), { min: today, max: '2040-12-31' })}
         />
@@ -41,10 +59,7 @@ export default function LaunchForm() {
 
       <FormElement>
         <Label htmlFor="planets-selector">Destination Exoplanet</Label>
-        <select {...register('planetsSelector')}>
-          <option value="Earth">Earth</option>
-          <option value="Mars">Mars</option>
-        </select>
+        <StyledSelect {...register('planetsSelector')}>{options}</StyledSelect>
       </FormElement>
       <Button type="submit">Launch Mission ✔</Button>
     </form>

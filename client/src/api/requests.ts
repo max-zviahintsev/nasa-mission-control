@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { LOCAL_URL } from './constants'
-import { Planets } from './types'
-async function httpGetPlanets(): Promise<Planets> {
+import { Planet } from './types'
+async function httpGetPlanets(): Promise<Planet[]> {
   try {
-    const response: Planets = await axios.get(`${LOCAL_URL}/planets`)
-    console.log(response)
-    return response
+    const response = await axios.get(`${LOCAL_URL}/planets`)
+    const { data } = response
+    return data
   } catch (error) {
     console.error(error)
     return []
