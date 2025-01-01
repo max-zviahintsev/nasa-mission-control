@@ -24,6 +24,7 @@ await loadPlanetsData()
 
 // ROUTES
 await server.register(import('./routes/planets/planets.router.ts'))
+await server.register(import('./routes/launches/launches.router.ts'))
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
     console.error(err)
