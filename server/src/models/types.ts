@@ -1,4 +1,4 @@
-export interface PlanetInitial {
+export type PlanetInitial {
   kepid: string
   kepoi_name: string
   kepler_name: string
@@ -49,3 +49,4 @@ export interface PlanetInitial {
   dec: string
   koi_kepmag: string
 }
+

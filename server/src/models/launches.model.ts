@@ -1,4 +1,6 @@
-const launches = new Map()
+import { AddLaunchBody } from './../../../client/src/api/types'
+
+let latestFlightNumber = 100
 
 const launch = {
   flightNumber: 100,
@@ -11,8 +13,22 @@ const launch = {
   success: true,
 }
 
-launches.set(launch.flightNumber, launch)
+const launches = new Map().set(launch.flightNumber, launch)
 
 const getLaunches = () => Array.from(launches.values())
 
-export { getLaunches }
+function addLaunch(launch: AddLaunchBody) {
+  latestFlightNumber++
+
+  launches.set(
+    latestFlightNumber,
+    Object.assign(launch, {
+      flightNumber: latestFlightNumber,
+      success: true,
+      upcoming: true,
+      customers: ['Max', 'Horo'],
+    })
+  )
+}
+
+export { getLaunches, addLaunch }
