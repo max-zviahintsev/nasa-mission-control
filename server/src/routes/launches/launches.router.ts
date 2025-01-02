@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { getAllLaunches } from './launches.controller'
+import { httpGetLaunches } from './launches.controller'
 export default async function planets(fastify: FastifyInstance) {
   const opts = {
     schema: {
@@ -42,5 +42,5 @@ export default async function planets(fastify: FastifyInstance) {
       },
     },
   }
-  fastify.get('/launches', opts, getAllLaunches)
+  fastify.get('/launches', opts, httpGetLaunches)
 }

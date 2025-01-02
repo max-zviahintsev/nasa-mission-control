@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { launches } from '../../models/launches.model'
-async function getAllLaunches(request: FastifyRequest, reply: FastifyReply) {
-  return reply.send(Array.from(launches.values()))
+import { getLaunches } from '../../models/launches.model'
+async function httpGetLaunches(request: FastifyRequest, reply: FastifyReply) {
+  return reply.send(getLaunches())
 }
 
-export { getAllLaunches }
+export { httpGetLaunches }
