@@ -8,21 +8,18 @@ import {
   StyledInput,
   StyledSelect,
 } from './StyledComponents'
-
-interface FormInput {
-  launchDay: string
-  missionName: string
-  rocketName: string
-  planetsSelector: string
-}
+import { SubmitLaunchBody } from '../../api/types'
+import useLaunches from '../../hooks/useLaunches'
 
 export default function LaunchForm() {
+  const { submitLaunch, isPendingLaunch } = useLaunches()
   const today = new Date().toISOString().split('T')[0]
 
-  const { register, handleSubmit } = useForm<FormInput>({
+  const { register, handleSubmit } = useForm<SubmitLaunchBody>({
     defaultValues: {
-      launchDay: today,
-      rocketName: 'Explorer IS1',
+      launchDate: today,
+      rocket: 'Explorer IS1',
+      destination: 'Kepler-1410 b',
     },
   })
   const planets = usePlanets()
@@ -35,33 +32,38 @@ export default function LaunchForm() {
     ))
   }, [planets])
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<SubmitLaunchBody> = (body) => submitLaunch(body)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormElement>
-        <Label htmlFor="launch-day">Launch Date</Label>
+        <Label htmlFor="launchDate">Launch Date</Label>
         <StyledInput
           type="date"
-          {...(register('launchDay'), { min: today, max: '2040-12-31' })}
+          id="launchDate"
+          {...(register('launchDate'), { min: today, max: '2040-12-31' })}
         />
       </FormElement>
 
       <FormElement>
-        <Label htmlFor="mission-name">Mission Name</Label>
-        <input type="text" {...register('missionName')} />
+        <Label htmlFor="mission">Mission Name</Label>
+        <input type="text" id="mission" {...register('mission')} />
       </FormElement>
 
       <FormElement>
-        <Label htmlFor="rocket-name">Rocket Type</Label>
-        <input type="text" {...register('rocketName')} />
+        <Label htmlFor="rocket">Rocket Type</Label>
+        <input type="text" id="rocket" {...register('rocket')} />
       </FormElement>
 
       <FormElement>
-        <Label htmlFor="planets-selector">Destination Exoplanet</Label>
-        <StyledSelect {...register('planetsSelector')}>{options}</StyledSelect>
+        <Label htmlFor="destination">Destination Exoplanet</Label>
+        <StyledSelect id="destination" {...register('destination')}>
+          {options}
+        </StyledSelect>
       </FormElement>
-      <Button type="submit">Launch Mission ✔</Button>
+      <Button type="submit" disabled={isPendingLaunch}>
+        Launch Mission ✔
+      </Button>
     </form>
   )
 }

@@ -13,9 +13,9 @@ export type Launch = {
   success: boolean
 }
 
-export type AddLaunchBody = {
+export type SubmitLaunchBody = {
   mission: string
   rocket: string
-  launchDate: Date
+  launchDate: Date | string
   destination: string
 }

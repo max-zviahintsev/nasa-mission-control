@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { LOCAL_URL } from './constants'
-import { Planet, Launch } from './types'
+import { Planet, Launch, SubmitLaunchBody } from './types'
+
 async function httpGetPlanets(): Promise<Planet[]> {
   try {
     const response = await axios.get(`${LOCAL_URL}/planets`)
@@ -21,5 +22,13 @@ async function httpGetLaunches(): Promise<Launch[]> {
     return []
   }
 }
+async function httpSubmitLaunch(body: SubmitLaunchBody) {
+  try {
+    const { status } = await axios.post(`${LOCAL_URL}/launches`, body)
+    return status
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-export { httpGetPlanets, httpGetLaunches }
+export { httpGetPlanets, httpGetLaunches, httpSubmitLaunch }

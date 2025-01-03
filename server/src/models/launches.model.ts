@@ -1,4 +1,4 @@
-import { AddLaunchBody } from './../../../client/src/api/types'
+import { SubmitLaunchBody } from './../../../client/src/api/types'
 
 let latestFlightNumber = 100
 
@@ -15,9 +15,12 @@ const launch = {
 
 const launches = new Map().set(launch.flightNumber, launch)
 
-const getLaunches = () => Array.from(launches.values())
+function getLaunches() {
+  const array = Array.from(launches.values())
+  return array.sort((a, b) => a.flightNumber - b.flightNumber)
+}
 
-function addLaunch(launch: AddLaunchBody) {
+function addLaunch(launch: SubmitLaunchBody) {
   latestFlightNumber++
 
   launches.set(
