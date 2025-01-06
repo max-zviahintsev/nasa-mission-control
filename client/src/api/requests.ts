@@ -30,5 +30,13 @@ async function httpSubmitLaunch(body: SubmitLaunchBody) {
     console.error(error)
   }
 }
+async function httpAbortLaunch(id: number) {
+  try {
+    const { status } = await axios.delete(`${LOCAL_URL}/launches/${id}`)
+    return status
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-export { httpGetPlanets, httpGetLaunches, httpSubmitLaunch }
+export { httpGetPlanets, httpGetLaunches, httpSubmitLaunch, httpAbortLaunch }

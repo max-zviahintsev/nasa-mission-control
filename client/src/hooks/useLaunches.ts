@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState, useMemo } from 'react'
-import { httpGetLaunches, httpSubmitLaunch } from '../api/requests'
+import {
+  httpGetLaunches,
+  httpSubmitLaunch,
+  httpAbortLaunch,
+} from '../api/requests'
 import { Launch, SubmitLaunchBody } from '../api/types'
 
 function useLaunches() {
@@ -25,8 +29,20 @@ function useLaunches() {
 
   async function submitLaunch(body: SubmitLaunchBody) {
     setPendingLaunch(true)
+
     await httpSubmitLaunch(body).then((status) => {
       if (status == 201) {
+        getLaunches()
+        setPendingLaunch(false)
+      }
+    })
+  }
+
+  async function abortLaunch(id: number) {
+    setPendingLaunch(true)
+
+    await httpAbortLaunch(id).then((status) => {
+      if (status == 204) {
         getLaunches()
         setPendingLaunch(false)
       }
@@ -38,6 +54,7 @@ function useLaunches() {
     historyLaunches,
     submitLaunch,
     isPendingLaunch,
+    abortLaunch,
   }
 }
 

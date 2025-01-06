@@ -1,6 +1,10 @@
 import { FastifyInstance } from 'fastify'
-import { httpGetLaunches, httpAddLaunch } from './launches.controller'
-export async function getLaunchesRoute(fastify: FastifyInstance) {
+import {
+  httpGetLaunches,
+  httpAddLaunch,
+  httpAbortLaunch,
+} from './launches.controller'
+async function getLaunchesRoute(fastify: FastifyInstance) {
   const opts = {
     schema: {
       response: {
@@ -44,7 +48,7 @@ export async function getLaunchesRoute(fastify: FastifyInstance) {
   }
   fastify.get('/launches', opts, httpGetLaunches)
 }
-export async function addLaunchRoute(fastify: FastifyInstance) {
+async function addLaunchRoute(fastify: FastifyInstance) {
   const opts = {
     schema: {
       body: {
@@ -90,3 +94,18 @@ export async function addLaunchRoute(fastify: FastifyInstance) {
 
   fastify.post('/launches', opts, httpAddLaunch)
 }
+async function abortLaunchRoute(fastify: FastifyInstance) {
+  const opts = {
+    schema: {
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+    },
+  }
+  fastify.delete('/launches/:id', opts, httpAbortLaunch)
+}
+
+export { getLaunchesRoute, addLaunchRoute, abortLaunchRoute }

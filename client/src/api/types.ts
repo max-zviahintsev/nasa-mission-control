@@ -19,3 +19,7 @@ export type SubmitLaunchBody = {
   launchDate: Date | string
   destination: string
 }
+
+export type AbortLaunchParams = {
+  id: string
+}

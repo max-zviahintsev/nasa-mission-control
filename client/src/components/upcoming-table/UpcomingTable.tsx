@@ -4,6 +4,8 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table'
+import { IconButton } from '@mui/material'
+import { Clear as ClearIcon } from '@mui/icons-material'
 import useLaunches from '../../hooks/useLaunches'
 
 type Columns = {
@@ -15,7 +17,7 @@ type Columns = {
 }
 
 export default function UpcomingTable() {
-  const { upcomingLaunches } = useLaunches()
+  const { upcomingLaunches, abortLaunch } = useLaunches()
 
   const columns = useMemo<MRT_ColumnDef<Columns>[]>(
     () => [
@@ -51,6 +53,20 @@ export default function UpcomingTable() {
   const table = useMaterialReactTable({
     columns,
     data: upcomingLaunches,
+    enableRowActions: true,
+    displayColumnDefOptions: {
+      'mrt-row-actions': {
+        header: 'Abort Launch',
+      },
+    },
+    renderRowActions: ({ row }) => (
+      <IconButton
+        color="error"
+        onClick={() => abortLaunch(row.original.flightNumber)}
+      >
+        <ClearIcon />
+      </IconButton>
+    ),
     mrtTheme: () => ({
       baseBackgroundColor: 'rgba(0, 0, 0, 0)',
     }),

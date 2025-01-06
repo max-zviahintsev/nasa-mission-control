@@ -5,6 +5,7 @@ import { loadPlanetsData } from './models/planets.model.ts'
 import {
   getLaunchesRoute,
   addLaunchRoute,
+  abortLaunchRoute,
 } from './routes/launches/launches.router.ts'
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
@@ -28,7 +29,9 @@ await loadPlanetsData()
 
 // ROUTES
 await server.register(import('./routes/planets/planets.router.ts'))
-await server.register(getLaunchesRoute, addLaunchRoute)
+await server.register(getLaunchesRoute)
+await server.register(addLaunchRoute)
+await server.register(abortLaunchRoute)
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
     console.error(err)

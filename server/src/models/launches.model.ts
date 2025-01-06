@@ -19,6 +19,15 @@ function getLaunches() {
   const array = Array.from(launches.values())
   return array.sort((a, b) => a.flightNumber - b.flightNumber)
 }
+function launchWithIdExists(id: number) {
+  return launches.has(id)
+}
+function abortLaunch(id: number) {
+  const aborted = launches.get(id)
+  aborted.upcoming = false
+  aborted.success = false
+  return aborted
+}
 
 function addLaunch(launch: SubmitLaunchBody) {
   latestFlightNumber++
@@ -34,4 +43,4 @@ function addLaunch(launch: SubmitLaunchBody) {
   )
 }
 
-export { getLaunches, addLaunch }
+export { getLaunches, addLaunch, launchWithIdExists, abortLaunch }
