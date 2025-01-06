@@ -4,16 +4,19 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table'
+import useLaunches from '../../hooks/useLaunches'
 
 type Columns = {
   flightNumber: number
-  launchDate: string
+  launchDate: Date
   mission: string
   rocket: string
-  target: string
+  destination: string
 }
 
 export default function UpcomingTable() {
+  const { upcomingLaunches } = useLaunches()
+
   const columns = useMemo<MRT_ColumnDef<Columns>[]>(
     () => [
       {
@@ -37,21 +40,9 @@ export default function UpcomingTable() {
         size: 150,
       },
       {
-        accessorKey: 'target',
+        accessorKey: 'destination',
         header: 'Destination',
         size: 150,
-      },
-    ],
-    []
-  )
-  const data: Columns[] = useMemo(
-    () => [
-      {
-        flightNumber: 1,
-        launchDate: '2026-06-13',
-        mission: 'suicidal',
-        rocket: 'shitty',
-        target: 'russia',
       },
     ],
     []
@@ -59,7 +50,7 @@ export default function UpcomingTable() {
 
   const table = useMaterialReactTable({
     columns,
-    data,
+    data: upcomingLaunches,
     mrtTheme: () => ({
       baseBackgroundColor: 'rgba(0, 0, 0, 0)',
     }),

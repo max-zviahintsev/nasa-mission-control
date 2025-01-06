@@ -4,16 +4,19 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table'
+import useLaunches from '../../hooks/useLaunches'
 
 type Columns = {
   flightNumber: number
-  launchDate: string
+  launchDate: Date
   mission: string
   rocket: string
-  customers: string
+  customers: string[]
 }
 
 export default function HistoryTable() {
+  const { historyLaunches } = useLaunches()
+
   const columns = useMemo<MRT_ColumnDef<Columns>[]>(
     () => [
       {
@@ -44,22 +47,10 @@ export default function HistoryTable() {
     ],
     []
   )
-  const data: Columns[] = useMemo(
-    () => [
-      {
-        flightNumber: 1,
-        launchDate: '2026-06-13',
-        mission: 'suicidal',
-        rocket: 'shitty',
-        customers: 'Musk and Trump',
-      },
-    ],
-    []
-  )
 
   const table = useMaterialReactTable({
     columns,
-    data,
+    data: historyLaunches,
     mrtTheme: () => ({
       baseBackgroundColor: 'rgba(0, 0, 0, 0)',
     }),

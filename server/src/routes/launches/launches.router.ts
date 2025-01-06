@@ -24,7 +24,7 @@ export async function getLaunchesRoute(fastify: FastifyInstance) {
               destination: {
                 type: 'string',
               },
-              customer: {
+              customers: {
                 type: 'array',
                 items: {
                   type: 'string',

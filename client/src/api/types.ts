@@ -8,7 +8,7 @@ export type Launch = {
   rocket: string
   launchDate: Date
   destination: string
-  customer: string[]
+  customers: string[]
   upcoming: boolean
   success: boolean
 }

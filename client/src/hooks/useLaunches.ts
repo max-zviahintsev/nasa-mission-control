@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useMemo } from 'react'
 import { httpGetLaunches, httpSubmitLaunch } from '../api/requests'
 import { Launch, SubmitLaunchBody } from '../api/types'
 
@@ -15,6 +15,14 @@ function useLaunches() {
     getLaunches()
   }, [getLaunches])
 
+  const upcomingLaunches = useMemo(() => {
+    return launches?.filter((launch) => launch.upcoming)
+  }, [launches])
+
+  const historyLaunches = useMemo(() => {
+    return launches?.filter((launch) => !launch.upcoming)
+  }, [launches])
+
   async function submitLaunch(body: SubmitLaunchBody) {
     setPendingLaunch(true)
     await httpSubmitLaunch(body).then((status) => {
@@ -26,7 +34,8 @@ function useLaunches() {
   }
 
   return {
-    launches,
+    upcomingLaunches,
+    historyLaunches,
     submitLaunch,
     isPendingLaunch,
   }
