@@ -1,4 +1,4 @@
-import { SubmitLaunchBody } from './../../../client/src/api/types'
+import { SubmitLaunchBody } from './../../../client/src/api/types.ts'
 
 let latestFlightNumber = 100
 

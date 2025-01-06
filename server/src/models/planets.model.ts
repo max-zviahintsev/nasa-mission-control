@@ -2,7 +2,7 @@ import fs from 'fs'
 import { parse } from 'csv-parse'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { PlanetInitial } from './types'
+import { PlanetInitial } from './types.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = join(dirname(__filename), 'server')

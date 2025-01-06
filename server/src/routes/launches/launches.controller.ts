@@ -4,11 +4,11 @@ import {
   addLaunch,
   launchWithIdExists,
   abortLaunch,
-} from '../../models/launches.model'
+} from '../../models/launches.model.ts'
 import {
   SubmitLaunchBody,
   AbortLaunchParams,
-} from '../../../../client/src/api/types'
+} from '../../../../client/src/api/types.ts'
 async function httpGetLaunches(request: FastifyRequest, reply: FastifyReply) {
   return reply.send(getLaunches())
 }

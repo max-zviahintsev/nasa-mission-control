@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { httpGetPlanets } from './planets.controller'
+import { httpGetPlanets } from './planets.controller.ts'
 export default async function planets(fastify: FastifyInstance) {
   const opts = {
     schema: {

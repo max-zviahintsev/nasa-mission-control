@@ -3,7 +3,7 @@ import {
   httpGetLaunches,
   httpAddLaunch,
   httpAbortLaunch,
-} from './launches.controller'
+} from './launches.controller.ts'
 async function getLaunchesRoute(fastify: FastifyInstance) {
   const opts = {
     schema: {
