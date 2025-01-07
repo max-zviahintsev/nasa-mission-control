@@ -9,6 +9,7 @@ export default defineConfig({
       sourcemap: 'inline',
       debug: { dumpModules: true, loadDumppedModules: true },
     },
+    reporters: ['html'],
   },
   plugins: [tsconfigPaths()],
 })
