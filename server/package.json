@@ -18,7 +18,8 @@
     "@fastify/cors": "^10.0.2",
     "@fastify/one-line-logger": "^2.0.1",
     "csv-parse": "^5.6.0",
-    "fastify": "^5.2.1"
+    "fastify": "^5.2.1",
+    "mongoose": "^8.9.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -35,9 +36,9 @@
     "prettier": "^3.4.2",
     "supertest": "^7.0.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.1",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^v3.0.0-beta.4"
+    "vitest": "3.0.0-beta.4"
   }
 }
