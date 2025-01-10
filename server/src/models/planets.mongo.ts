@@ -9,6 +9,6 @@ const planetSchema = new Schema<Planet>({
   },
 })
 
-const PlanetModel = model<Planet>('Planet', planetSchema)
+const PlanetModel = model<Planet>('Planet', planetSchema, 'planets')
 
 export default PlanetModel

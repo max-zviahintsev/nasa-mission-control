@@ -3,11 +3,10 @@ import { parse } from 'csv-parse'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { PlanetInitial } from './types.ts'
+import PlanetModel from './planets.mongo.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = join(dirname(__filename), 'server')
-
-const planets: PlanetInitial[] = []
 
 function isHabitablePlanet(planet: PlanetInitial) {
   return (
@@ -17,14 +16,23 @@ function isHabitablePlanet(planet: PlanetInitial) {
     Number(planet['koi_prad']) < 1.6
   )
 }
-/* async function savePlanet(planet: any) {
+async function getAllPlanets() {
+  return await PlanetModel.find(
+    {},
+    {
+      _id: 0,
+      __v: 0,
+    }
+  )
+}
+async function savePlanet(planet: PlanetInitial) {
   try {
-    await planets.updateOne(
+    await PlanetModel.updateOne(
       {
-        keplerName: planet.kepler_name,
+        planetName: planet.kepler_name,
       },
       {
-        keplerName: planet.kepler_name,
+        planetName: planet.kepler_name,
       },
       {
         upsert: true,
@@ -33,18 +41,7 @@ function isHabitablePlanet(planet: PlanetInitial) {
   } catch (err) {
     console.error(`Could not save planet ${err}`)
   }
-} */
-
-/* async function getAllPlanets() {
-  return await planets.find(
-    {},
-    {
-      _id: 0,
-      __v: 0,
-    }
-  )
-} */
-
+}
 function loadPlanetsData() {
   return new Promise<void>((resolve, reject) => {
     fs.createReadStream(join(__dirname, '..', '..', 'data', 'kepler_data.csv'))
@@ -56,7 +53,7 @@ function loadPlanetsData() {
       )
       .on('data', async (data) => {
         if (isHabitablePlanet(data)) {
-          planets.push(data)
+          savePlanet(data)
         }
       })
       .on('error', (err) => {
@@ -64,11 +61,11 @@ function loadPlanetsData() {
         reject(err)
       })
       .on('end', async () => {
-        // const countPlanetsFound = (await getAllPlanets()).length
-        console.log(`${planets.length} habitable planets found!`)
+        const countPlanetsFound = (await getAllPlanets()).length
+        console.log(`${countPlanetsFound} habitable planets found!`)
         resolve()
       })
   })
 }
 
-export { loadPlanetsData, planets }
+export { loadPlanetsData, getAllPlanets }
