@@ -1,8 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
   getLaunches,
-  addLaunch,
-  launchWithIdExists,
+  scheduleLaunch,
   abortLaunch,
 } from '../../models/launches.model.ts'
 import {
@@ -19,7 +18,7 @@ async function httpAddLaunch(
   const launch = request.body
   launch.launchDate = new Date(launch.launchDate)
 
-  addLaunch(launch)
+  await scheduleLaunch(launch)
 
   reply.code(201)
   return request.body
@@ -29,9 +28,9 @@ async function httpAbortLaunch(
   reply: FastifyReply
 ) {
   const id = Number(request.params.id)
-  if (!launchWithIdExists(id)) {
+  /*   if (!launchWithIdExists(id)) {
     return reply.code(404).send({ message: 'Launch not found' })
-  }
+  } */
   const aborted = abortLaunch(id)
   reply.code(204)
   return aborted

@@ -1,46 +1,56 @@
 import { SubmitLaunchBody } from './../../../client/src/api/types.ts'
+import LaunchModel from './launches.mongo.ts'
+import PlanetModel from './planets.mongo.ts'
+import { Launch } from './../../../client/src/api/types.ts'
 
-let latestFlightNumber = 100
+const DEFAULT_FLIGHT_NUMBER = 1
+async function getLatestFlightNumber() {
+  const latestLaunch = await LaunchModel.findOne().sort('-flightNumber')
 
-const launch = {
-  flightNumber: 100,
-  mission: 'Kepler Exploration X',
-  rocket: 'Explorer IS1',
-  launchDate: new Date('December 27, 2030'),
-  destination: 'Kepler-442 b',
-  customers: ['ZTM', 'NASA'],
-  upcoming: true,
-  success: true,
+  if (!latestLaunch) {
+    return DEFAULT_FLIGHT_NUMBER
+  }
+  return latestLaunch.flightNumber
 }
-
-const launches = new Map().set(launch.flightNumber, launch)
 
 function getLaunches() {
-  const array = Array.from(launches.values())
-  return array.sort((a, b) => a.flightNumber - b.flightNumber)
+  LaunchModel.find({}, { _id: 0, __v: 0 })
 }
-function launchWithIdExists(id: number) {
-  return launches.has(id)
+function abortLaunch(id: number) {}
+async function saveLaunch(launch: Launch) {
+  const planet = await PlanetModel.findOne({
+    planetName: launch.destination,
+  })
+
+  if (!planet) {
+    throw new Error('no matching planet found')
+  }
+  console.log('launch', launch)
+  try {
+    await LaunchModel.updateOne(
+      {
+        flightNumber: launch.flightNumber,
+      },
+      launch,
+      {
+        upsert: true,
+      }
+    )
+  } catch (err) {
+    console.error(`Could not save planet ${err}`)
+  }
 }
-function abortLaunch(id: number) {
-  const aborted = launches.get(id)
-  aborted.upcoming = false
-  aborted.success = false
-  return aborted
+async function scheduleLaunch(launch: SubmitLaunchBody) {
+  const newFlightNumber = (await getLatestFlightNumber()) + 1
+
+  const newLaunch = Object.assign(launch, {
+    flightNumber: newFlightNumber,
+    customers: ['Max', 'Horo'],
+    success: true,
+    upcoming: true,
+  })
+
+  await saveLaunch(newLaunch)
 }
 
-function addLaunch(launch: SubmitLaunchBody) {
-  latestFlightNumber++
-
-  launches.set(
-    latestFlightNumber,
-    Object.assign(launch, {
-      flightNumber: latestFlightNumber,
-      success: true,
-      upcoming: true,
-      customers: ['Max', 'Horo'],
-    })
-  )
-}
-
-export { getLaunches, addLaunch, launchWithIdExists, abortLaunch }
+export { getLaunches, scheduleLaunch, abortLaunch }

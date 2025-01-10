@@ -34,6 +34,6 @@ const launchSchema = new Schema<Launch>({
   },
 })
 
-const LaunchModel = model<Launch>('Launch', launchSchema)
+const LaunchModel = model<Launch>('Launch', launchSchema, 'launches')
 
 export default LaunchModel
