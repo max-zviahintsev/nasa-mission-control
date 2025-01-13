@@ -10,6 +10,9 @@ const clientOptions: mongoose.ConnectOptions = {
 async function gracefulShutdown() {
   try {
     await mongoose.disconnect()
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(0)
+    }
     console.log('Disconnected from MongoDB')
   } catch (error) {
     console.error('Error disconnecting from MongoDB:', error)
