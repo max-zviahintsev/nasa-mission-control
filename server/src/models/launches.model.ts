@@ -13,10 +13,30 @@ async function getLatestFlightNumber() {
   return latestLaunch.flightNumber
 }
 
-function getLaunches() {
-  LaunchModel.find({}, { _id: 0, __v: 0 })
+async function getLaunches() {
+  return await LaunchModel.find({}, { _id: 0, __v: 0 })
 }
-function abortLaunch(id: number) {}
+
+async function launchWithIdExists(id: number) {
+  return await LaunchModel.findOne({
+    flightNumber: id,
+  })
+}
+
+async function abortLaunch(id: number) {
+  const { matchedCount, modifiedCount } = await LaunchModel.updateOne(
+    {
+      flightNumber: id,
+    },
+    {
+      upcoming: false,
+      success: false,
+    }
+  )
+
+  return matchedCount === 1 && modifiedCount === 1
+}
+
 async function saveLaunch(launch: Launch) {
   const planet = await PlanetModel.findOne({
     planetName: launch.destination,
@@ -25,7 +45,7 @@ async function saveLaunch(launch: Launch) {
   if (!planet) {
     throw new Error('no matching planet found')
   }
-  console.log('launch', launch)
+
   try {
     await LaunchModel.updateOne(
       {
@@ -40,6 +60,7 @@ async function saveLaunch(launch: Launch) {
     console.error(`Could not save planet ${err}`)
   }
 }
+
 async function scheduleLaunch(launch: SubmitLaunchBody) {
   const newFlightNumber = (await getLatestFlightNumber()) + 1
 
@@ -53,4 +74,4 @@ async function scheduleLaunch(launch: SubmitLaunchBody) {
   await saveLaunch(newLaunch)
 }
 
-export { getLaunches, scheduleLaunch, abortLaunch }
+export { getLaunches, scheduleLaunch, abortLaunch, launchWithIdExists }
