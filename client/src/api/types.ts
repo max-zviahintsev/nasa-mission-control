@@ -7,7 +7,6 @@ export type Launch = {
   mission: string
   rocket: string
   launchDate: Date | string
-  destination: string
   customers: string[]
   upcoming: boolean
   success: boolean
