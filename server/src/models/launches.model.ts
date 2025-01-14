@@ -1,11 +1,31 @@
 import axios from 'axios'
-import { SubmitLaunchBody } from './../../../client/src/api/types.ts'
+import { SubmitLaunchBody, Launch } from './../../../client/src/api/types.ts'
+import { LaunchFilter } from './types.ts'
 import LaunchModel from './launches.mongo.ts'
-import PlanetModel from './planets.mongo.ts'
-import { Launch } from './../../../client/src/api/types.ts'
 
 const SPACEX_API_URL = 'https://api.spacexdata.com/v4/launches/query'
-async function loadLaunches() {
+
+async function findLaunch(filter: LaunchFilter) {
+  return await LaunchModel.findOne(filter)
+}
+
+async function saveLaunch(launch: Launch) {
+  try {
+    await LaunchModel.updateOne(
+      {
+        flightNumber: launch.flightNumber,
+      },
+      launch,
+      {
+        upsert: true,
+      }
+    )
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+async function populateLaunches() {
   try {
     const { data } = await axios.post(SPACEX_API_URL, {
       query: {},
@@ -44,11 +64,25 @@ async function loadLaunches() {
         success: doc['success'],
         customers,
       }
-      //await saveLaunch(launch)
+      await saveLaunch(launch)
     }
   } catch (error) {
     console.error(error)
   }
+}
+
+async function loadLaunches() {
+  const firstLaunch = await findLaunch({
+    flightNumber: 1,
+    rocket: 'Falcon 1',
+    mission: 'FalconSat',
+  })
+  if (firstLaunch) {
+    console.log('Launch data already loaded')
+    return
+  }
+
+  await populateLaunches()
 }
 
 const DEFAULT_FLIGHT_NUMBER = 1
@@ -61,8 +95,13 @@ async function getLatestFlightNumber() {
   return latestLaunch.flightNumber
 }
 
-async function getLaunches() {
-  return await LaunchModel.find({}, { _id: 0, __v: 0 })
+async function getLaunches(skip: number, limit: number) {
+  return await await LaunchModel.find({}, { _id: 0, __v: 0 })
+    .sort({
+      flightNumber: 1,
+    })
+    .skip(skip)
+    .limit(limit)
 }
 
 async function launchWithIdExists(id: number) {
@@ -83,30 +122,6 @@ async function abortLaunch(id: number) {
   )
 
   return matchedCount === 1 && modifiedCount === 1
-}
-
-async function saveLaunch(launch: Launch) {
-  const planet = await PlanetModel.findOne({
-    //planetName: launch.destination,
-  })
-
-  if (!planet) {
-    throw new Error('no matching planet found')
-  }
-
-  try {
-    await LaunchModel.updateOne(
-      {
-        flightNumber: launch.flightNumber,
-      },
-      launch,
-      {
-        upsert: true,
-      }
-    )
-  } catch (err) {
-    console.error(`Could not save planet ${err}`)
-  }
 }
 
 async function scheduleLaunch(launch: SubmitLaunchBody) {

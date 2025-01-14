@@ -8,10 +8,20 @@ import {
 import {
   SubmitLaunchBody,
   AbortLaunchParams,
+  GetLaunchesQueryParams,
 } from '../../../../client/src/api/types.ts'
+import { getPagination } from '../../services/query.ts'
 
-async function httpGetLaunches(request: FastifyRequest, reply: FastifyReply) {
-  return reply.send(await getLaunches())
+async function httpGetLaunches(
+  request: FastifyRequest<{
+    Querystring: GetLaunchesQueryParams
+  }>,
+  reply: FastifyReply
+) {
+  const { page, pageSize } = request.query
+  const { skip, limit } = await getPagination(page, pageSize)
+
+  return reply.send(await getLaunches(skip, limit))
 }
 
 async function httpAddLaunch(

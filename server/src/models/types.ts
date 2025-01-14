@@ -1,4 +1,4 @@
-export type PlanetInitial {
+export type PlanetInitial = {
   kepid: string
   kepoi_name: string
   kepler_name: string
@@ -50,3 +50,8 @@ export type PlanetInitial {
   koi_kepmag: string
 }
 
+export type LaunchFilter = {
+  flightNumber: number
+  mission: string
+  rocket: string
+}
