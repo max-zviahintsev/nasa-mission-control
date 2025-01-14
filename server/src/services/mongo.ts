@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const uri =
-  'mongodb+srv://max-horo:OcJunwRWQ58sEsYO@nasa-mc-cluster.yh885.mongodb.net/nasa?retryWrites=true&w=majority&appName=nasa-mc-cluster'
+const uri = process.env.MONGO_URL as string
 
 const clientOptions: mongoose.ConnectOptions = {
   serverApi: { version: '1', strict: true, deprecationErrors: true },
