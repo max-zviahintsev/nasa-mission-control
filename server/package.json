@@ -8,7 +8,7 @@
     "test": "vitest --ui --disable-console-intercept",
     "build": "tsc -p tsconfig.json",
     "start": "tsx --env-file .env src/server.ts",
-    "dev": "tsx --watch --env-file .env src/server.ts",
+    "dev": "tsx watch --env-file .env src/server.ts",
     "lint": "eslint ."
   },
   "keywords": [],
