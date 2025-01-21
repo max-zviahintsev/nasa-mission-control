@@ -10,10 +10,10 @@ import useLaunches from '../../hooks/useLaunches'
 
 type Columns = {
   flightNumber: number
-  launchDate: Date
+  launchDate: Date | string
   mission: string
   rocket: string
-  destination: string
+  destination?: string
 }
 
 export default function UpcomingTable() {

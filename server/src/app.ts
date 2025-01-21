@@ -1,4 +1,6 @@
 import fastify, { FastifyInstance } from 'fastify'
+import fastifyStatic from '@fastify/static'
+import { join } from 'path'
 import cors from '@fastify/cors'
 import { Server, IncomingMessage, ServerResponse } from 'node:http'
 import {
@@ -19,6 +21,14 @@ app.register(cors, {
 })
 app.get('/ping', async () => {
   return 'pong\n'
+})
+
+await app.register(fastifyStatic, {
+  root: join(process.cwd(), 'public'),
+})
+
+app.get('/', (req, reply) => {
+  reply.sendFile('index.html')
 })
 
 // ROUTES

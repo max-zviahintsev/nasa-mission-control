@@ -8,7 +8,7 @@ import useLaunches from '../../hooks/useLaunches'
 
 type Columns = {
   flightNumber: number
-  launchDate: Date
+  launchDate: string | Date
   mission: string
   rocket: string
   customers: string[]
