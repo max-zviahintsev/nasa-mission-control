@@ -4,6 +4,8 @@
   "description": "NASA Mission Control Project",
   "main": "index.js",
   "scripts": {
+    "install-server-prod": "pnpm --prefix ./server install --prod",
+    "install-client-prod": "pnpm --prefix ./client install --prod",
     "server": "pnpm --prefix ./server dev",
     "client": "pnpm --prefix ./client dev",
     "test": "echo \"Error: no test specified\" && exit 1",
