@@ -47,12 +47,12 @@ export default function LaunchForm() {
 
       <FormElement>
         <Label htmlFor="mission">Mission Name</Label>
-        <input type="text" id="mission" {...register('mission')} />
+        <StyledInput type="text" id="mission" {...register('mission')} />
       </FormElement>
 
       <FormElement>
         <Label htmlFor="rocket">Rocket Type</Label>
-        <input type="text" id="rocket" {...register('rocket')} />
+        <StyledInput type="text" id="rocket" {...register('rocket')} />
       </FormElement>
 
       <FormElement>

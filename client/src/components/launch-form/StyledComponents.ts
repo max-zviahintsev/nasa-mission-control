@@ -8,10 +8,11 @@ export const FormElement = styled.div`
   margin-bottom: 10px;
 `
 export const StyledSelect = styled.select`
-  min-width: 164px;
+  min-width: 193px;
 `
 export const StyledInput = styled.input`
-  min-width: 156px;
+  min-width: 185px;
+  padding: 2px;
 `
 export const Button = styled.button`
   font-size: 16px;
